@@ -29,8 +29,7 @@ export default function Home() {
 
                 {/* Title */}
                 <Animated.View entering={FadeInDown.delay(100).springify()} style={{ marginBottom: 60 }}>
-                    <Text style={{ color: 'white', fontSize: 64, fontWeight: '900', textAlign: 'center', lineHeight: 68 }}>UNDER</Text>
-                    <Text style={{ color: 'white', fontSize: 64, fontWeight: '900', textAlign: 'center', lineHeight: 68 }}>COVER</Text>
+                    <Text style={{ color: 'white', fontSize: 64, fontWeight: '900', textAlign: 'center', lineHeight: 68 }}>MIMIC</Text>
                 </Animated.View>
 
                 {/* Play Button */}

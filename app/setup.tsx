@@ -287,7 +287,10 @@ export default function GameSetup() {
                     </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{ width: 48, height: 48, backgroundColor: '#3b82f6', borderRadius: 24, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity
+                    onPress={() => router.push('/help')}
+                    style={{ width: 48, height: 48, backgroundColor: '#3b82f6', borderRadius: 24, justifyContent: 'center', alignItems: 'center' }}
+                >
                     <HelpCircle size={22} color="white" />
                 </TouchableOpacity>
             </View>
