@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getRandomStaticWord } from './staticWords';
 
-const OPENROUTER_API_KEY = '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';
-const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
+// Groq API Configuration
+const GROQ_API_KEY = process.env.EXPO_PUBLIC_GROQ_API_KEY;
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const STORAGE_KEY = 'undercover_words';
 const MAX_WORD_COUNT = 4000;
 
@@ -10,7 +11,7 @@ export interface WordPair {
     civilian: string;
     undercover: string;
     category: string;
-    id: string;
+    id?: string; // Optional - auto-generated if not provided
 }
 
 const SYSTEM_PROMPT = (mode: 'standard' | 'spicy') => {
@@ -67,25 +68,26 @@ export async function getRandomSavedWord(): Promise<WordPair | null> {
     return words[Math.floor(Math.random() * words.length)];
 }
 
-async function callGemini(prompt: string, mode: 'standard' | 'spicy' = 'standard', retries = 3): Promise<{ success: boolean; data?: any; error?: string; isQuotaError?: boolean }> {
+async function callGroq(prompt: string, mode: 'standard' | 'spicy' = 'standard', retries = 3): Promise<{ success: boolean; data?: any; error?: string; isQuotaError?: boolean }> {
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
-            const response = await fetch(API_URL, {
+            if (!GROQ_API_KEY) {
+                return { success: false, error: 'API Key missing' };
+            }
+            const response = await fetch(GROQ_API_URL, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                    'Content-Type': 'application/json',
-                    'HTTP-Referer': 'https://undercover-game.app',
-                    'X-Title': 'Undercover Game'
+                    'Authorization': `Bearer ${GROQ_API_KEY}`,
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    model: 'google/gemini-pro-1.5',
+                    model: 'llama-3.1-8b-instant',
                     messages: [
                         { role: 'system', content: SYSTEM_PROMPT(mode) },
                         { role: 'user', content: prompt }
                     ],
                     temperature: 0.95,
-                    max_tokens: 100
+                    max_tokens: 150
                 })
             });
 
@@ -151,7 +153,7 @@ export async function generateWordPair(mode: 'standard' | 'spicy' = 'standard'):
         prompt += `\n${AVOID_PROMPT_PREFIX}${recentWordsList}`;
     }
 
-    const result = await callGemini(prompt, mode);
+    const result = await callGroq(prompt, mode);
 
     if (!result.success) {
         if (result.isQuotaError) {

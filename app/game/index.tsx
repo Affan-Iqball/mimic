@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { ArrowLeft, HelpCircle } from 'lucide-react-native';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 import { useFocusEffect } from 'expo-router';
 import { GameService, GameState } from '../../services/gameService';
@@ -12,17 +12,30 @@ export default function GameGrid() {
     const router = useRouter();
     const [gameState, setGameState] = useState<GameState>(GameService.getState());
     const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+    // Force re-render key - increments each time screen is focused
+    const [refreshKey, setRefreshKey] = useState(0);
 
     // Force update when screen is focused (returning from Reveal)
     useFocusEffect(
         useCallback(() => {
-            const state = GameService.getState();
-            setGameState({ ...state }); // Force refresh state
+            // Get fresh state from service
+            const freshState = GameService.getState();
+
+            // Deep copy to ensure React detects the change
+            setGameState({
+                isActive: freshState.isActive,
+                players: [...freshState.players],
+                wordPair: freshState.wordPair,
+                totalUndercovers: freshState.totalUndercovers,
+                totalMrWhites: freshState.totalMrWhites,
+            });
 
             // Calculate next player index
-            const firstUnpickedIndex = state.players.findIndex(p => !p.picked);
-            // If everyone picked, index = length
-            setCurrentPlayerIndex(firstUnpickedIndex === -1 ? state.players.length : firstUnpickedIndex);
+            const firstUnpickedIndex = freshState.players.findIndex(p => !p.picked);
+            setCurrentPlayerIndex(firstUnpickedIndex === -1 ? freshState.players.length : firstUnpickedIndex);
+
+            // Force re-render
+            setRefreshKey(k => k + 1);
         }, [])
     );
 
@@ -87,13 +100,14 @@ export default function GameGrid() {
             </View>
 
             {/* Category Badge */}
-            {gameState.wordPair && (
+            {/* Category Badge - HIDDEN as per feedback */}
+            {/* {gameState.wordPair && (
                 <View style={{ alignItems: 'center', marginBottom: 6 }}>
                     <View style={{ backgroundColor: '#2a2a2a', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 12 }}>
                         <Text style={{ color: '#71717a', fontSize: 11 }}>{gameState.wordPair.category}</Text>
                     </View>
                 </View>
-            )}
+            )} */}
 
             {/* Instruction */}
             <View style={{ alignItems: 'center', marginBottom: 20 }}>
@@ -104,7 +118,7 @@ export default function GameGrid() {
                     </>
                 ) : (
                     <>
-                        <Text style={{ color: '#38bdf8', fontWeight: 'bold', fontSize: 16, marginBottom: 4 }}>
+                        <Text style={{ color: '#38bdf8', fontWeight: 'bold', fontSize: 32, marginBottom: 8, textAlign: 'center' }}>
                             {gameState.players[currentPlayerIndex]?.name || `Player ${currentPlayerIndex + 1}`}
                         </Text>
                         <Text style={{ color: 'white', fontSize: 22, fontWeight: 'bold' }}>Pick a card</Text>
@@ -119,8 +133,8 @@ export default function GameGrid() {
                     <Animated.View key={index} entering={ZoomIn.delay(index * 50).springify()} style={{ width: cardWidth, height: cardHeight }}>
                         {player.picked ? (
                             <View style={{ width: '100%', height: '100%', backgroundColor: '#22c55e', borderRadius: 20, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: '#16a34a' }}>
-                                <Text style={{ color: 'white', fontSize: 11, fontWeight: 'bold', textAlign: 'center', paddingHorizontal: 4 }}>{player.name}</Text>
-                                <Text style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, marginTop: 2 }}>✓</Text>
+                                <Text style={{ color: 'white', fontSize: 14, fontWeight: '900', textAlign: 'center', paddingHorizontal: 4 }}>{player.name}</Text>
+                                <Text style={{ color: 'white', fontSize: 24, fontWeight: '900', marginTop: 4 }}>✓</Text>
                             </View>
                         ) : (
                             <TouchableOpacity onPress={() => handleCardPress(index)} activeOpacity={0.7} style={{ width: '100%', height: '100%', backgroundColor: '#fbbf24', borderRadius: 20, justifyContent: 'center', alignItems: 'center', borderBottomWidth: 4, borderBottomColor: '#b45309' }}>
@@ -136,7 +150,7 @@ export default function GameGrid() {
             {/* Start Discussion - redirects to game loop (or setup for now) */}
             {allPicked && (
                 <Animated.View entering={FadeIn} style={{ marginTop: 24, alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => router.replace('/setup')} style={{ backgroundColor: '#22c55e', paddingHorizontal: 36, paddingVertical: 14, borderRadius: 999 }}>
+                    <TouchableOpacity onPress={() => router.replace('/game/discuss')} style={{ backgroundColor: '#22c55e', paddingHorizontal: 36, paddingVertical: 14, borderRadius: 999 }}>
                         <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Start Discussion 💬</Text>
                     </TouchableOpacity>
                 </Animated.View>

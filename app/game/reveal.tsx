@@ -1,8 +1,10 @@
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
 import { GameService } from '../../services/gameService';
+import { Info } from 'lucide-react-native';
+import { wordDefinitions } from '../../data/wordDefinitions';
 
 function formatName(name: string): string {
     return name.trim().split(/\s+/).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
@@ -181,7 +183,17 @@ export default function RevealRole() {
                         </View>
                     ) : (
                         <View style={{ backgroundColor: role === 'undercover' ? 'rgba(251,191,36,0.1)' : 'rgba(34,197,94,0.1)', padding: 20, borderRadius: 16, borderWidth: 1, borderColor: role === 'undercover' ? 'rgba(251,191,36,0.3)' : 'rgba(34,197,94,0.3)', width: '100%', marginBottom: 20 }}>
-                            <Text style={{ color: role === 'undercover' ? '#fbbf24' : '#22c55e', textAlign: 'center', fontSize: 28, fontWeight: 'bold' }}>{secretWord}</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+                                <Text style={{ color: role === 'undercover' ? '#fbbf24' : '#22c55e', textAlign: 'center', fontSize: 28, fontWeight: 'bold' }}>{secretWord}</Text>
+                                {secretWord && wordDefinitions[secretWord] && (
+                                    <TouchableOpacity
+                                        onPress={() => Alert.alert(secretWord, wordDefinitions[secretWord])}
+                                        style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: 6, borderRadius: 12 }}
+                                    >
+                                        <Info size={20} color={role === 'undercover' ? '#fbbf24' : '#22c55e'} />
+                                    </TouchableOpacity>
+                                )}
+                            </View>
                             {role === 'undercover' && <Text style={{ color: '#fbbf24', textAlign: 'center', fontSize: 11, marginTop: 8, opacity: 0.7 }}>You're undercover! 🕵️</Text>}
                         </View>
                     )}

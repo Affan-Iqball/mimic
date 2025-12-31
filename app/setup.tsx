@@ -28,12 +28,18 @@ export default function GameSetup() {
     const [isSpicy, setIsSpicy] = useState(false);
     const [isInitializing, setIsInitializing] = useState(false);
 
+    const [selectedPackName, setSelectedPackName] = useState<string | null>(null);
+
     // Reload group data when screen comes into focus
     useFocusEffect(
         useCallback(() => {
             if (groupId) {
                 refreshGroupData(groupId);
             }
+
+            // Check for selected pack
+            const pack = GameService.getSelectedPack();
+            setSelectedPackName(pack ? pack.name : null);
         }, [groupId])
     );
 
@@ -92,6 +98,9 @@ export default function GameSetup() {
         if (groupId) {
             await markGroupPlayed(groupId);
         }
+
+        // Store group ID for "Play Again" feature
+        GameService.setLastGroupId(groupId);
 
         // INITIALIZE GAME SERVICE
         // This generates words once and for all for this session
@@ -240,23 +249,37 @@ export default function GameSetup() {
                         </Text>
                     </View>
                 )}
-
-                <View style={{ flexDirection: 'row', gap: 12, marginTop: 16 }}>
+                {/* MERGED: GAME MODES & PACKS BUTTON */}
+                <View style={{ width: '100%', marginBottom: 32 }}>
                     <TouchableOpacity
-                        onPress={() => setIsSpicy(!isSpicy)}
-                        style={{ flex: 1, backgroundColor: isSpicy ? '#7f1d1d' : '#1a1a1a', borderRadius: 16, paddingVertical: 14, borderWidth: 1, borderColor: isSpicy ? '#ef4444' : '#2a2a2a', alignItems: 'center', justifyContent: 'center' }}
-                        activeOpacity={0.7}
+                        onPress={() => router.push('/packs')}
+                        style={{
+                            width: '100%',
+                            backgroundColor: '#1a1a1a',
+                            borderRadius: 24,
+                            paddingVertical: 20,
+                            paddingHorizontal: 24,
+                            borderWidth: 1,
+                            borderColor: '#333',
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                        }}
                     >
-                        <Text style={{ color: isSpicy ? '#fca5a5' : '#71717a', fontSize: 11 }}>Mode</Text>
-                        <Text style={{ color: isSpicy ? '#ef4444' : 'white', fontSize: 16, fontWeight: 'bold' }}>{isSpicy ? 'Spicy Mode 🌶️' : 'Standard ☁️'}</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={{ flex: 1, backgroundColor: '#1a1a1a', borderRadius: 16, paddingVertical: 14, borderWidth: 1, borderColor: '#2a2a2a', alignItems: 'center', justifyContent: 'center' }}
-                        activeOpacity={0.7}
-                    >
-                        <Text style={{ color: '#71717a', fontSize: 11 }}>Words</Text>
-                        <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>AI Generated ✨</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                            <View style={{ width: 48, height: 48, backgroundColor: '#2563eb', borderRadius: 24, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 24 }}>{selectedPackName === "Standard Mode" || selectedPackName === "AI Generated ✨" ? "☁️" : "📦"}</Text>
+                            </View>
+                            <View>
+                                <Text style={{ color: '#94a3b8', fontSize: 13, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 0.5 }}>Current Pack</Text>
+                                <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>
+                                    {selectedPackName === "AI Generated ✨" ? "Standard / AI" : selectedPackName}
+                                </Text>
+                            </View>
+                        </View>
+                        <View style={{ width: 32, height: 32, backgroundColor: '#333', borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ color: '#94a3b8', fontSize: 16 }}>→</Text>
+                        </View>
                     </TouchableOpacity>
                 </View>
 

@@ -1,10 +1,12 @@
 import { WordPair, generateWordPair, getRandomSavedWord, getFallbackWord } from './wordGenerator';
+import { WordPack, PackService } from './packService';
 
 export interface Player {
     id: number;
     name: string;
     role: 'civilian' | 'undercover' | 'mrwhite';
     picked: boolean;
+    eliminated: boolean;
     manualName?: string; // If player inputs name manually
 }
 
@@ -24,7 +26,64 @@ let currentState: GameState = {
     totalMrWhites: 0,
 };
 
+// Support multiple pack selection
+let selectedCustomPacks: WordPack[] = [];
+
+// Track last played group for "Play Again" feature
+let lastGroupId: string | null = null;
+
 export const GameService = {
+    // Set multiple packs (replaces old single pack method)
+    setCustomPacks(packs: WordPack[]) {
+        selectedCustomPacks = packs;
+    },
+
+    // Legacy single pack support (adds to array)
+    setCustomPack(pack: WordPack | null) {
+        if (pack) {
+            selectedCustomPacks = [pack];
+        } else {
+            selectedCustomPacks = [];
+        }
+    },
+
+    addCustomPack(pack: WordPack) {
+        // Don't add duplicates
+        if (!selectedCustomPacks.find(p => p.id === pack.id)) {
+            selectedCustomPacks.push(pack);
+        }
+    },
+
+    removeCustomPack(packId: string) {
+        selectedCustomPacks = selectedCustomPacks.filter(p => p.id !== packId);
+    },
+
+    getSelectedPacks() {
+        return selectedCustomPacks;
+    },
+
+    // Legacy getter (returns first pack or null)
+    getSelectedPack() {
+        return selectedCustomPacks.length > 0 ? selectedCustomPacks[0] : null;
+    },
+
+    isPackSelected(packId: string): boolean {
+        return selectedCustomPacks.some(p => p.id === packId);
+    },
+
+    clearSelectedPacks() {
+        selectedCustomPacks = [];
+    },
+
+    // Track last played group for "Play Again"
+    setLastGroupId(groupId: string | null) {
+        lastGroupId = groupId;
+    },
+
+    getLastGroupId(): string | null {
+        return lastGroupId;
+    },
+
     // Initialize a new game
     async startGame(
         totalPlayers: number,
@@ -67,26 +126,42 @@ export const GameService = {
             name: playerNames[index],
             role: roles[index],
             picked: false,
+            eliminated: false,
             manualName: groupPlayers.length > 0 ? playerNames[index] : undefined
         }));
 
         // 4. Generate Words (ONLY ONCE)
         let words: WordPair | null = null;
-        try {
-            const result = await generateWordPair(mode);
-            if (result.success && result.wordPair) {
-                words = result.wordPair;
-            } else {
-                // Fallback strategies handled in UI usually, but here we enforce assignment
-                if (result.isQuotaError) {
-                    const saved = await getRandomSavedWord();
-                    words = saved || getFallbackWord(mode);
+
+        if (selectedCustomPacks.length > 0) {
+            // EQUAL PROBABILITY SELECTION:
+            // Step 1: Randomly pick a pack (each pack has equal chance regardless of word count)
+            const randomPackIndex = Math.floor(Math.random() * selectedCustomPacks.length);
+            const selectedPack = selectedCustomPacks[randomPackIndex];
+
+            // Step 2: Randomly pick a word from that pack
+            const randomWordIndex = Math.floor(Math.random() * selectedPack.words.length);
+            words = selectedPack.words[randomWordIndex];
+
+            // Fire and forget play count increment
+            PackService.incrementPackPlays(selectedPack.id);
+        } else {
+            try {
+                const result = await generateWordPair(mode);
+                if (result.success && result.wordPair) {
+                    words = result.wordPair;
                 } else {
-                    words = getFallbackWord(mode);
+                    // Fallback strategies handled in UI usually, but here we enforce assignment
+                    if (result.isQuotaError) {
+                        const saved = await getRandomSavedWord();
+                        words = saved || getFallbackWord(mode);
+                    } else {
+                        words = getFallbackWord(mode);
+                    }
                 }
+            } catch (e) {
+                words = getFallbackWord(mode);
             }
-        } catch (e) {
-            words = getFallbackWord(mode);
         }
 
         // 4. Set State
@@ -116,6 +191,45 @@ export const GameService = {
         if (currentState.players[index]) {
             currentState.players[index].picked = true;
         }
+    },
+
+    // Get count of remaining (non-eliminated) civilians
+    remainingCivilians(): number {
+        return currentState.players.filter(p => !p.eliminated && p.role === 'civilian').length;
+    },
+
+    // Get count of remaining infiltrators (undercover + mrwhite)
+    remainingInfiltrators(): number {
+        return currentState.players.filter(p => !p.eliminated && (p.role === 'undercover' || p.role === 'mrwhite')).length;
+    },
+
+    // Eliminate a player by index
+    eliminatePlayer(index: number): Player | null {
+        if (currentState.players[index] && !currentState.players[index].eliminated) {
+            currentState.players[index].eliminated = true;
+            return currentState.players[index];
+        }
+        return null;
+    },
+
+    // Check win condition after elimination
+    // Returns: 'civilians' | 'infiltrators' | null (game continues)
+    checkWinCondition(): 'civilians' | 'infiltrators' | null {
+        const remainingCivs = this.remainingCivilians();
+        const remainingInfil = this.remainingInfiltrators();
+
+        // Infiltrators win if only 1 civilian left
+        if (remainingCivs <= 1) {
+            return 'infiltrators';
+        }
+
+        // Civilians win if all infiltrators eliminated
+        if (remainingInfil === 0) {
+            return 'civilians';
+        }
+
+        // Game continues
+        return null;
     },
 
     resetGame() {
