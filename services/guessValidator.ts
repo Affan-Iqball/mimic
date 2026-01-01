@@ -1,8 +1,8 @@
 import NetInfo from '@react-native-community/netinfo';
 
-// Groq API Configuration
-const GROQ_API_KEY = process.env.EXPO_PUBLIC_GROQ_API_KEY;
-const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+// Groq API Configuration (User specified Kimi model is on Groq)
+const API_KEY = process.env.EXPO_PUBLIC_GROQ_API_KEY;
+const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 interface GuessResult {
     isCorrect: boolean;
@@ -12,7 +12,7 @@ interface GuessResult {
 
 /**
  * Validates a guess against the actual civilian word.
- * Uses Groq AI (llama-3.1-8b-instant) when online for typo tolerance, falls back to exact match offline.
+ * Uses AI (moonshotai/kimi-k2-instruct) when online for smart validation, falls back to exact match offline.
  */
 export async function validateGuess(guess: string, actualWord: string): Promise<GuessResult> {
     const normalizedGuess = guess.trim().toLowerCase();
@@ -32,9 +32,9 @@ export async function validateGuess(guess: string, actualWord: string): Promise<
         };
     }
 
-    // Online: Try Groq API for typo tolerance
+    // Online: Try AI API for smart validation
     try {
-        const response = await callGroqForGuessValidation(guess, actualWord);
+        const response = await callAIForGuessValidation(guess, actualWord);
         return {
             isCorrect: response.isCorrect,
             usedAI: true,
@@ -42,7 +42,7 @@ export async function validateGuess(guess: string, actualWord: string): Promise<
         };
     } catch (error) {
         // Fallback to exact match if API fails
-        console.warn('Groq API failed, falling back to exact match:', error);
+        console.warn('AI API failed, falling back to exact match:', error);
         const isCorrect = normalizedGuess === normalizedActual;
         return {
             isCorrect,
@@ -53,43 +53,48 @@ export async function validateGuess(guess: string, actualWord: string): Promise<
 }
 
 /**
- * Calls Groq API (llama-3.1-8b-instant) to validate guess with typo tolerance.
- * Only accepts exact matches or minor typos.
+ * Calls AI API (moonshotai/kimi-k2-instruct) for smart validation.
+ * Strict on distinct concepts, lenient on typos/synonyms.
  */
-async function callGroqForGuessValidation(guess: string, actualWord: string): Promise<{ isCorrect: boolean; message: string }> {
-    if (!GROQ_API_KEY) {
-        throw new Error('Groq API key not configured');
+async function callAIForGuessValidation(guess: string, actualWord: string): Promise<{ isCorrect: boolean; message: string }> {
+    if (!API_KEY) {
+        throw new Error('API key not configured');
     }
 
-    const prompt = `You are a LENIENT word comparison judge for a party game. Be generous!
+    const prompt = `You are a FAIR word comparison judge for a party game.
     
 The player's guess: "${guess}"
 The actual word: "${actualWord}"
 
-Your job is to determine if the guess is close enough to be CORRECT.
+Your job is to determine if the guess is practically the SAME WORD or CONCEPT as the actual word.
 
-ACCEPT the guess if:
-1. Exact match (case-insensitive): "pikachu" = "Pikachu" ✓
-2. Typos (any number of character errors): "Pikachoo" = "Pikachu" ✓, "Pkachu" = "Pikachu" ✓
-3. Very similar/close words: "Couch" = "Sofa" ✓, "Phone" = "Mobile" ✓
-4. Same concept different phrasing: "New York" = "NYC" ✓, "United States" = "USA" ✓
-5. Phonetically similar: "Colour" = "Color" ✓
+GUIDELINES:
+1. ACCEPT Typos: "Pikachoo" = "Pikachu" ✓
+2. ACCEPT Synonyms/Slang: "Mobile" = "Phone" ✓, "Couch" = "Sofa" ✓
+3. ACCEPT Plurals/Singulars: "Apples" = "Apple" ✓
 
-BE GENEROUS - if it's anywhere close to the actual word, ACCEPT IT.
+4. STRICTLY REJECT Related but DISTINCT concepts:
+   - "Car" != "Engine" (Part of is NOT the same)
+   - "Protein" != "Chicken" (Contains is NOT the same)
+   - "Protein" != "Semen" (Contains is NOT the same - STRICT REJECT)
+   - "Ocean" != "Water" (Made of is NOT the same)
 
-Only REJECT if the guess is completely unrelated or a totally different concept.
+If the words are technically related but mean different things, REJECT IT.
+Only accept if they are interchangeable in normal conversation.
 
-Respond with ONLY a JSON object (no markdown):
+Respond with ONLY a JSON object:
 {"isCorrect": true/false, "reason": "brief explanation"}`;
 
-    const response = await fetch(GROQ_API_URL, {
+    const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${GROQ_API_KEY}`,
-            'Content-Type': 'application/json'
+            'Authorization': `Bearer ${API_KEY}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': 'https://mimic-game.app', // Required for OpenRouter
+            'X-Title': 'Mimic Game'
         },
         body: JSON.stringify({
-            model: 'llama-3.1-8b-instant',
+            model: 'moonshotai/kimi-k2-instruct',
             messages: [
                 { role: 'user', content: prompt }
             ],
@@ -99,14 +104,14 @@ Respond with ONLY a JSON object (no markdown):
     });
 
     if (!response.ok) {
-        throw new Error(`Groq API error: ${response.status}`);
+        throw new Error(`AI API error: ${response.status}`);
     }
 
     const data = await response.json();
     const text = data.choices?.[0]?.message?.content;
 
     if (!text) {
-        throw new Error('Empty response from Groq');
+        throw new Error('Empty response from AI');
     }
 
     // Parse JSON response

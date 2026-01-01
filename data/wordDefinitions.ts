@@ -269,7 +269,7 @@ export const wordDefinitions: Record<string, string> = {
 
     // Pair 6: Chachi vs Fantasy
     "Chachi": "Uncle's wife.",
-    "Fantasy": "Something sexy you dream about.",
+    // Fantasy: Already defined in Western Explicit section
 
     // Pair 7: Secret GF vs Side Chick
     "Secret GF": "Girlfriend you hide from family.",
@@ -321,7 +321,7 @@ export const wordDefinitions: Record<string, string> = {
 
     // Pair 19: Video Call vs Scandal
     "Video Call": "Seeing someone live on phone.",
-    "Scandal": "When private stuff becomes public drama.",
+    // Scandal: Already defined in Western Explicit section
 
     // Pair 20: Late Night vs All Nighter
     "Late Night": "Stuff happening after midnight.",
@@ -381,7 +381,7 @@ export const wordDefinitions: Record<string, string> = {
 
     // Pair 34: Spa vs Extra Service
     "Spa": "Place for massages and relaxing.",
-    "Extra Service": "Secret adult services at some spas.",
+    // Extra Service: Already defined in Western Explicit section
 
     // Pair 35: Parlour vs Beauty Sleep
     "Parlour": "Beauty salon for hair and makeup.",
@@ -408,6 +408,144 @@ export const wordDefinitions: Record<string, string> = {
     "Moaning": "Sounds people make during sex.",
 
     // ============================================
+    // ADDITIONAL WESTERN EXPLICIT TERMS
+    // ============================================
+
+    // Dating Apps & Culture
+    "Bumble": "Dating app where women message first.",
+    "Hinge": "Dating app designed to be deleted. For serious dating.",
+    "Relationship": "Two people officially together.",
+    "Situationship": "Not dating but more than friends. Confusing.",
+    "Ex": "Someone you used to date.",
+    "Toxic Ex": "An ex who messed you up emotionally.",
+    "Ghosting": "Disappearing without saying bye.",
+    "Breadcrumbing": "Small flirty messages to keep you interested.",
+    "Fake Profile": "Account pretending to be someone else.",
+
+    // Party & Nightlife
+    "Wasted": "Extremely drunk. Can barely walk.",
+    "Hammered": "Same as wasted. Very drunk.",
+    "Shots": "Small quick drinks of alcohol.",
+    "Body Shots": "Drinking alcohol off someone's body.",
+    "VIP Section": "Fancy area at club for rich people.",
+    "Champagne Room": "Private room at strip club.",
+    "Bachelor Party": "Party for groom before wedding.",
+    "Bachelorette": "Party for bride before wedding.",
+    "Vegas": "Las Vegas. Party city. What happens there stays there.",
+    "What Happens There": "Things you don't talk about after.",
+
+    // Clothing & State
+    "Bikini": "Two piece swimsuit.",
+    "Topless": "Not wearing anything on top.",
+    "Skinny Dipping": "Swimming naked.",
+    "Nude Beach": "Beach where clothes are optional.",
+
+    // Adult Industry
+    "Massage Parlor": "Place for massages. Some offer extras.",
+    "Rub and Tug": "Massage with happy ending.",
+    "Peep Show": "Show you watch through a window.",
+    "Live Show": "Performance happening right now.",
+
+    // Digital & Scandals
+    "DMs": "Direct messages. Private messages.",
+    "Slide In": "Sending a flirty DM to someone.",
+    "Burner": "Fake account no one knows about.",
+
+    // Behavior & Feelings
+    "Thirsty": "Desperate for attention or sex.",
+    "Down Bad": "Really desperate. Can't think straight.",
+    "Jealous": "Upset someone else has what you want.",
+    "Possessive": "Controlling who your partner talks to.",
+
+    // Health & Safety
+    "STD": "Sexually transmitted disease.",
+    "Herpes": "A common STD. Stays forever.",
+    "Clinic": "Place to get tested for STDs.",
+    "Walk of Shame 2.0": "Going to clinic after hookup.",
+
+    // Archetypes
+    "Trophy Wife": "Young pretty wife of rich older man.",
+    "MILF": "Mom I'd like to... you know.",
+    "DILF": "Dad I'd like to... you know.",
+    "Cougar": "Older woman who dates younger men.",
+    "Boy Toy": "Young guy dating older woman.",
+    "Playboy": "Guy who dates lots of women.",
+    "Casanova": "Famous romantic. Guy who charms everyone.",
+
+    // Actions & Intimacy
+    "Make Up Sex": "Sex after a big fight. Very intense.",
+    "Hate Sex": "Sex with someone you dislike. Passionate.",
+    "Morning Sex": "Sex when you first wake up.",
+    "Shower Sex": "Sex in the shower. Slippery.",
+    "Car Sex": "Sex in a car. Usually back seat.",
+    "69": "Position where both give oral at the same time.",
+    "Mutual": "Both doing the same thing to each other.",
+
+    // Kinks
+    "BDSM": "Bondage, domination, sadism, masochism. Rough stuff.",
+    "50 Shades": "Book/movie about BDSM relationship.",
+    "Fetish": "Something unusual that turns you on.",
+    "Kink": "Same as fetish. Something specific you like.",
+    "Foot Fetish": "Being turned on by feet.",
+    "Armpit Fetish": "Being turned on by armpits. Unusual.",
+    "Voyeur": "Person who likes watching others.",
+    "Exhibitionist": "Person who likes being watched.",
+
+    // Group Activities
+    "Swinger": "Person who swaps partners with other couples.",
+    "Open Relationship": "Dating but allowed to see others.",
+    "Wife Swap": "Two couples exchange partners.",
+    "Key Party": "Party where car keys decide who goes home with who.",
+
+    // Physiology
+    "Wet Dream": "Sexual dream that makes you... finish.",
+    "Nocturnal": "Happening at night. Night emissions.",
+    "Hard": "Male arousal state.",
+    "Soft": "Not aroused.",
+    "Big": "Large size. You know what.",
+    "Small": "Below average size.",
+    "Shaved": "Hair removed down there.",
+    "Bush": "Natural hair down there.",
+    "Waxed": "Hair removed with wax.",
+    "Natural": "Keeping hair as it grows.",
+
+    // Toys & Accessories
+    "Vibrator": "Buzzing device for pleasure.",
+    "Dildo": "Device shaped like male parts.",
+    "Ball Gag": "Goes in mouth. Can't talk.",
+    "Whip": "For spanking. Hurts.",
+    "Paddle": "Flat thing for spanking.",
+    "Lube": "Slippery stuff used during sex.",
+    "Flavored": "Lube that tastes good.",
+    "Costume": "Outfit for roleplay.",
+    "Nurse Outfit": "Sexy costume. Common roleplay.",
+
+    // Places
+    "Motel": "Cheap hotel. Often for secret meetings.",
+    "Hourly Rate": "Pay by the hour. You know why.",
+    "Hotel Room": "Fancier than motel.",
+    "Do Not Disturb": "Sign on door. Privacy please.",
+    "Hot Tub": "Warm bubbling water. Things happen.",
+    "Jacuzzi": "Same as hot tub. Brand name.",
+    "Beach": "Sand and water. Also romantic spot.",
+    "Changing Room": "Where you change clothes. Or more.",
+    "Office": "Work place. Some people get frisky.",
+    "After Hours": "When everyone else has left.",
+    "Elevator": "Takes you up floors. Or stuck with someone.",
+    "Stuck": "Trapped in small space with someone.",
+
+    // Substances
+    "Wine Drunk": "Drunk from wine. Different feeling.",
+    "Edibles": "Marijuana in food form.",
+    "Cross-faded": "Drunk AND high at same time.",
+    "Molly": "Drug that makes you feel love for everyone.",
+    "Ecstasy": "Same as Molly. Party drug.",
+    "Aphrodisiac": "Food that makes you want sex.",
+    "Oysters": "Seafood. Supposed to be sexy.",
+    "Whiskey D***": "When alcohol makes guys... not work.",
+    "Beer Goggles": "When drunk, everyone looks attractive.",
+
+    // ============================================
     // OTHER COMMON TERMS
     // ============================================
     "Mangni": "Engagement ceremony before wedding.",
@@ -430,8 +568,6 @@ export const wordDefinitions: Record<string, string> = {
     "Udhaar": "Borrowed money or credit.",
     "Committee": "Group savings where everyone puts money.",
     "Visa": "Permission to go to another country.",
-    "Situationship": "Not dating but more than friends. Confusing.",
-    "Ghosting": "Disappearing without saying bye.",
     "Red Flag": "Warning sign that someone is bad.",
     "Ick": "Sudden gross feeling about someone you liked.",
     "Gaslight": "Making someone think they're crazy.",
@@ -440,9 +576,7 @@ export const wordDefinitions: Record<string, string> = {
     "Third Wheel": "Single person stuck with a couple.",
     "Friendzone": "When they only see you as a friend.",
     "Cushioning": "Keeping backup options while dating someone.",
-    "Breadcrumbing": "Small flirty messages to keep you interested.",
     "Benching": "Keeping someone waiting while you date others.",
-    "Lube": "Slippery stuff used during sex.",
     "Strip Poker": "Poker where loser takes off clothes.",
     "Rizz": "Smooth talking skills. Flirting ability.",
     "Sus": "Suspicious. Shady behavior.",

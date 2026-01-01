@@ -404,7 +404,7 @@ export const DEFAULT_PACKS: LocalPack[] = [
         id: 'official_spicy',
         name: 'After Dark',
         author: 'Mimic Official',
-        description: 'Desi Dating, Rishtas, and late-night vibes. 18+ Extremely Explicit & Spicy!',
+        description: 'Dating and late-night vibes. 18+ Extremely Explicit & Spicy!',
         emoji: '🔥',
         version: PACK_VERSIONS.spicy,
         isOfficial: true,

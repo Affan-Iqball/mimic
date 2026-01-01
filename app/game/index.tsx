@@ -11,7 +11,6 @@ const { width } = Dimensions.get('window');
 export default function GameGrid() {
     const router = useRouter();
     const [gameState, setGameState] = useState<GameState>(GameService.getState());
-    const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
     // Force re-render key - increments each time screen is focused
     const [refreshKey, setRefreshKey] = useState(0);
 
@@ -28,11 +27,9 @@ export default function GameGrid() {
                 wordPair: freshState.wordPair,
                 totalUndercovers: freshState.totalUndercovers,
                 totalMrWhites: freshState.totalMrWhites,
+                pickingOrder: [...freshState.pickingOrder],
+                currentPickerIndex: freshState.currentPickerIndex,
             });
-
-            // Calculate next player index
-            const firstUnpickedIndex = freshState.players.findIndex(p => !p.picked);
-            setCurrentPlayerIndex(firstUnpickedIndex === -1 ? freshState.players.length : firstUnpickedIndex);
 
             // Force re-render
             setRefreshKey(k => k + 1);
@@ -118,11 +115,11 @@ export default function GameGrid() {
                     </>
                 ) : (
                     <>
-                        <Text style={{ color: '#38bdf8', fontWeight: 'bold', fontSize: 32, marginBottom: 8, textAlign: 'center' }}>
-                            {gameState.players[currentPlayerIndex]?.name || `Player ${currentPlayerIndex + 1}`}
+                        <Text style={{ color: '#38bdf8', fontWeight: 'bold', fontSize: 28, marginBottom: 4, textAlign: 'center' }}>
+                            {gameState.pickingOrder[gameState.currentPickerIndex] || 'Player'}
                         </Text>
-                        <Text style={{ color: 'white', fontSize: 22, fontWeight: 'bold' }}>Pick a card</Text>
-                        <Text style={{ color: '#71717a', fontSize: 13, marginTop: 4 }}>{remainingCards} cards remaining</Text>
+                        <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold', marginBottom: 8 }}>Pick a card</Text>
+                        <Text style={{ color: '#71717a', fontSize: 14 }}>{remainingCards} cards remaining</Text>
                     </>
                 )}
             </View>
@@ -138,8 +135,8 @@ export default function GameGrid() {
                             </View>
                         ) : (
                             <TouchableOpacity onPress={() => handleCardPress(index)} activeOpacity={0.7} style={{ width: '100%', height: '100%', backgroundColor: '#fbbf24', borderRadius: 20, justifyContent: 'center', alignItems: 'center', borderBottomWidth: 4, borderBottomColor: '#b45309' }}>
-                                <View style={{ backgroundColor: 'rgba(255,255,255,0.3)', padding: 10, borderRadius: 999 }}>
-                                    <Text style={{ fontSize: 20 }}>❓</Text>
+                                <View style={{ backgroundColor: 'rgba(255,255,255,0.3)', padding: 12, borderRadius: 999 }}>
+                                    <Text style={{ fontSize: 24 }}>❓</Text>
                                 </View>
                             </TouchableOpacity>
                         )}

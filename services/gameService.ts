@@ -16,6 +16,8 @@ export interface GameState {
     wordPair: WordPair | null;
     totalUndercovers: number;
     totalMrWhites: number;
+    pickingOrder: string[]; // Shuffled list of player names for picking turn
+    currentPickerIndex: number; // Index in pickingOrder for whose turn it is
 }
 
 let currentState: GameState = {
@@ -24,6 +26,8 @@ let currentState: GameState = {
     wordPair: null,
     totalUndercovers: 0,
     totalMrWhites: 0,
+    pickingOrder: [],
+    currentPickerIndex: 0,
 };
 
 // Support multiple pack selection
@@ -93,19 +97,8 @@ export const GameService = {
         mode: 'standard' | 'spicy' = 'standard'
     ): Promise<{ success: boolean; error?: string }> {
 
-        // 1. Prepare Player Names (shuffle if provided)
-        let playerNames: string[] = [];
-        if (groupPlayers.length > 0) {
-            // Shuffle group player names for randomness
-            playerNames = [...groupPlayers];
-            for (let i = playerNames.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [playerNames[i], playerNames[j]] = [playerNames[j], playerNames[i]];
-            }
-        } else {
-            // Generate numbered player names
-            playerNames = Array.from({ length: totalPlayers }, (_, i) => `Player ${i + 1}`);
-        }
+        // 1. Roles will be shuffled and assigned to card positions
+        // Names will be assigned when players pick cards based on pickingOrder
 
         // 2. Assign Roles and Shuffle
         const roles: ('civilian' | 'undercover' | 'mrwhite')[] = [];
@@ -120,15 +113,33 @@ export const GameService = {
             [roles[i], roles[j]] = [roles[j], roles[i]];
         }
 
-        // 3. Create Players with shuffled names and roles
+        // 3. Create Players with roles but NO NAMES YET (names assigned when picking)
         const newPlayers: Player[] = Array.from({ length: totalPlayers }).map((_, index) => ({
             id: index,
-            name: playerNames[index],
+            name: '', // Name will be assigned when player picks this card
             role: roles[index],
             picked: false,
             eliminated: false,
-            manualName: groupPlayers.length > 0 ? playerNames[index] : undefined
+            manualName: undefined
         }));
+
+        // 4. Create picking order (shuffled list of names)
+        let pickingOrder: string[] = [];
+        if (groupPlayers.length > 0) {
+            // Shuffle group player names for random picking order
+            pickingOrder = [...groupPlayers];
+            for (let i = pickingOrder.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pickingOrder[i], pickingOrder[j]] = [pickingOrder[j], pickingOrder[i]];
+            }
+        } else {
+            // Generate numbered player names in random order
+            pickingOrder = Array.from({ length: totalPlayers }, (_, i) => `Player ${i + 1}`);
+            for (let i = pickingOrder.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pickingOrder[i], pickingOrder[j]] = [pickingOrder[j], pickingOrder[i]];
+            }
+        }
 
         // 4. Generate Words (ONLY ONCE)
         let words: WordPair | null = null;
@@ -164,13 +175,15 @@ export const GameService = {
             }
         }
 
-        // 4. Set State
+        // 5. Set State
         currentState = {
             isActive: true,
             players: newPlayers,
             wordPair: words,
             totalUndercovers: undercoversCount,
-            totalMrWhites: mrWhitesCount
+            totalMrWhites: mrWhitesCount,
+            pickingOrder: pickingOrder,
+            currentPickerIndex: 0
         };
 
         return { success: true };
@@ -188,9 +201,24 @@ export const GameService = {
     },
 
     markCardPicked(index: number) {
-        if (currentState.players[index]) {
+        if (currentState.players[index] && !currentState.players[index].picked) {
+            // Assign the current picker's name to this card
+            const currentPickerName = currentState.pickingOrder[currentState.currentPickerIndex];
+            currentState.players[index].name = currentPickerName;
+            currentState.players[index].manualName = currentPickerName;
             currentState.players[index].picked = true;
+
+            // Advance to next picker
+            currentState.currentPickerIndex++;
         }
+    },
+
+    // Get the current picker's name (whose turn it is to pick)
+    getCurrentPickerName(): string | null {
+        if (currentState.currentPickerIndex < currentState.pickingOrder.length) {
+            return currentState.pickingOrder[currentState.currentPickerIndex];
+        }
+        return null; // All players have picked
     },
 
     // Get count of remaining (non-eliminated) civilians
@@ -239,6 +267,8 @@ export const GameService = {
             wordPair: null,
             totalUndercovers: 0,
             totalMrWhites: 0,
+            pickingOrder: [],
+            currentPickerIndex: 0,
         };
     }
 };
