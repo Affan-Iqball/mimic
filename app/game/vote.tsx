@@ -34,7 +34,13 @@ export default function VoteScreen() {
                         const originalIndex = state.players.findIndex(p => p.id === player.id);
 
                         if (originalIndex !== -1) {
-                            GameService.eliminatePlayer(originalIndex);
+                            // DEFER ELIMINATION for Infiltrators (Spy/MrWhite)
+                            // We only eliminate immediately if it's a Civilian.
+                            // For others, we wait until they fail their guess in the next screen.
+                            if (player.role === 'civilian') {
+                                GameService.eliminatePlayer(originalIndex);
+                            }
+
                             router.push({
                                 pathname: '/game/eliminated',
                                 params: { playerIndex: originalIndex }

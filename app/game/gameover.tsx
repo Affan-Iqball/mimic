@@ -13,11 +13,16 @@ export default function GameOverScreen() {
 
     const [players, setPlayers] = useState<Player[]>([]);
     const [wordPair, setWordPair] = useState<{ civilian: string; undercover: string } | null>(null);
+    const [stats, setStats] = useState({ undercovers: 0, mrWhites: 0 });
 
     useEffect(() => {
         const state = GameService.getState();
         setPlayers(state.players);
         setWordPair(state.wordPair);
+        setStats({
+            undercovers: state.totalUndercovers,
+            mrWhites: state.totalMrWhites
+        });
     }, []);
 
     const getWinnerInfo = () => {
@@ -108,14 +113,28 @@ export default function GameOverScreen() {
                         <Text style={{ color: '#71717a', fontSize: 12, fontWeight: 'bold', letterSpacing: 1, textAlign: 'center', marginBottom: 16 }}>THE WORDS WERE</Text>
 
                         <View style={{ flexDirection: 'row', gap: 12 }}>
+                            {/* Always show Civilian Word */}
                             <View style={{ flex: 1, backgroundColor: 'rgba(34,197,94,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)', alignItems: 'center' }}>
                                 <Text style={{ color: '#71717a', fontSize: 11, marginBottom: 4 }}>CIVILIAN</Text>
                                 <Text style={{ color: '#22c55e', fontWeight: 'bold', fontSize: 18 }}>{wordPair.civilian}</Text>
                             </View>
-                            <View style={{ flex: 1, backgroundColor: 'rgba(251,191,36,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(251,191,36,0.3)', alignItems: 'center' }}>
-                                <Text style={{ color: '#71717a', fontSize: 11, marginBottom: 4 }}>UNDERCOVER</Text>
-                                <Text style={{ color: '#fbbf24', fontWeight: 'bold', fontSize: 18 }}>{wordPair.undercover}</Text>
-                            </View>
+
+                            {/* Show Undercover only if undercovers exist */}
+                            {stats.undercovers > 0 && (
+                                <View style={{ flex: 1, backgroundColor: 'rgba(251,191,36,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(251,191,36,0.3)', alignItems: 'center' }}>
+                                    <Text style={{ color: '#71717a', fontSize: 11, marginBottom: 4 }}>UNDERCOVER</Text>
+                                    <Text style={{ color: '#fbbf24', fontWeight: 'bold', fontSize: 18 }}>{wordPair.undercover}</Text>
+                                </View>
+                            )}
+
+                            {/* Show Mr. White only if Mr. White exists AND NO undercovers (to balance the layout, or as requested) */}
+                            {/* User said: "if thier is only mr white it shows mr white" */}
+                            {stats.undercovers === 0 && stats.mrWhites > 0 && (
+                                <View style={{ flex: 1, backgroundColor: 'rgba(113,113,122,0.1)', padding: 16, borderRadius: 16, borderWidth: 1, borderColor: 'rgba(113,113,122,0.3)', alignItems: 'center' }}>
+                                    <Text style={{ color: '#71717a', fontSize: 11, marginBottom: 4 }}>MR. WHITE</Text>
+                                    <Text style={{ color: '#a1a1aa', fontWeight: 'bold', fontSize: 18 }}>???</Text>
+                                </View>
+                            )}
                         </View>
                     </Animated.View>
                 )}

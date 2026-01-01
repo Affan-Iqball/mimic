@@ -1,0 +1,74 @@
+[
+  {
+    "model": "allam-2-7b",
+    "status": "ERROR",
+    "time_seconds": 0.13,
+    "error": "HTTP 403: error code: 1010"
+  },
+  {
+    "model": "groq/compound",
+    "status": "ERROR",
+    "time_seconds": 0.11,
+    "error": "HTTP 403: error code: 1010"
+  },
+  {
+    "model": "groq/compound-mini",
+    "status": "ERROR",
+    "time_seconds": 0.07,
+    "error": "HTTP 403: error code: 1010"
+  },
+  {
+    "model": "llama-3.1-8b-instant",
+    "status": "ERROR",
+    "time_seconds": 0.06,
+    "error": "HTTP 403: error code: 1010"
+  },
+  {
+    "model": "llama-3.3-70b-versatile",
+    "status": "ERROR",
+    "time_seconds": 0.04,
+    "error": "HTTP 403: error code: 1010"
+  },
+  {
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "status": "ERROR",
+    "time_seconds": 0.04,
+    "error": "HTTP 403: error code: 1010"
+  },
+  {
+    "model": "meta-llama/llama-4-scout-17b-16e-instruct",
+    "status": "ERROR",
+    "time_seconds": 0.07,
+    "error": "HTTP 403: error code: 1010"
+  },
+  {
+    "model": "moonshotai/kimi-k2-instruct",
+    "status": "ERROR",
+    "time_seconds": 0.57,
+    "error": "HTTP 403: error code: 1010"
+  },
+  {
+    "model": "moonshotai/kimi-k2-instruct-0905",
+    "status": "ERROR",
+    "time_seconds": 0.06,
+    "error": "HTTP 403: error code: 1010"
+  },
+  {
+    "model": "openai/gpt-oss-120b",
+    "status": "ERROR",
+    "time_seconds": 0.07,
+    "error": "HTTP 403: error code: 1010"
+  },
+  {
+    "model": "openai/gpt-oss-20b",
+    "status": "ERROR",
+    "time_seconds": 0.14,
+    "error": "HTTP 403: error code: 1010"
+  },
+  {
+    "model": "qwen/qwen3-32b",
+    "status": "ERROR",
+    "time_seconds": 0.06,
+    "error": "HTTP 403: error code: 1010"
+  }
+]

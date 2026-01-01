@@ -51,14 +51,9 @@ export default function WordPacksScreen() {
         const newSelection = new Set(selectedPackIds);
 
         if (newSelection.has(pack.id)) {
-            // Deselect - but must have at least 1 pack selected
-            if (newSelection.size > 1) {
-                newSelection.delete(pack.id);
-                GameService.removeCustomPack(pack.id);
-            } else {
-                Alert.alert("Cannot Deselect", "You must have at least one pack selected.");
-                return;
-            }
+            // Deselect (Allowed to reach 0, validation on Done)
+            newSelection.delete(pack.id);
+            GameService.removeCustomPack(pack.id);
         } else {
             // Select
             newSelection.add(pack.id);
@@ -85,6 +80,12 @@ export default function WordPacksScreen() {
 
     const handleConfirm = () => {
         const selectedCount = selectedPackIds.size;
+
+        if (selectedCount === 0) {
+            Alert.alert("Select a Pack", "You must have at least one pack selected to play.");
+            return;
+        }
+
         const totalWords = getTotalWords();
         Alert.alert(
             `${selectedCount} Pack${selectedCount > 1 ? 's' : ''} Selected! ✓`,
@@ -124,11 +125,6 @@ export default function WordPacksScreen() {
                     <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>
                         {selectedPackIds.size} Pack{selectedPackIds.size !== 1 ? 's' : ''} • {getTotalWords()} Words
                     </Text>
-                    {selectedPackIds.size > 1 && (
-                        <Text style={{ color: '#22c55e', fontSize: 12, marginTop: 4 }}>
-                            ⚖️ Each pack has equal probability of being picked
-                        </Text>
-                    )}
                 </View>
             </View>
 

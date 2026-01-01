@@ -71,6 +71,13 @@ export default function EliminatedScreen() {
     };
 
     const handleContinue = () => {
+        // FINALIZE ELIMINATION:
+        // If they were deferred (Infiltrator) and failed guess, or Civilian (already elim),
+        // ensure they are marked eliminated now.
+        if (player && !player.eliminated) {
+            GameService.eliminatePlayer(playerIndex);
+        }
+
         // Check win condition
         const winResult = GameService.checkWinCondition();
 

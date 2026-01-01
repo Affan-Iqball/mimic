@@ -261,22 +261,12 @@ export const wordDefinitions: Record<string, string> = {
 
     // Pair 4: Suhaag Raat vs First Night
     "Suhaag Raat": "Desi word for wedding night.",
-    "First Night": "Western word for wedding night.",
+    "First Night": "Wedding night. Special night.",
 
-    // Pair 5: Bhabhi vs Bhabhi Fetish
-    "Bhabhi": "Brother's wife.",
-    "Bhabhi Fetish": "Weird attraction to brother's wife. Taboo.",
-
-    // Pair 6: Chachi vs Fantasy
-    "Chachi": "Uncle's wife.",
-    // Fantasy: Already defined in Western Explicit section
-
-    // Pair 7: Secret GF vs Side Chick
-    "Secret GF": "Girlfriend you hide from family.",
+    // Pair 5: Secret GF vs Side Chick
+    "Secret GF": "Girl you hide from everyone.",
     "Side Chick": "Other girl while you're already dating someone.",
 
-    // Pair 8: Cousin vs Forbidden
-    "Cousin": "Your aunt or uncle's kid.",
     "Forbidden": "Something you're not allowed to do.",
 
     // Pair 9: Phuppo vs Cockblock
@@ -464,7 +454,7 @@ export const wordDefinitions: Record<string, string> = {
     "Walk of Shame 2.0": "Going to clinic after hookup.",
 
     // Archetypes
-    "Trophy Wife": "Young pretty wife of rich older man.",
+    "Trophy Wife": "Young pretty partner of rich older person.",
     "MILF": "Mom I'd like to... you know.",
     "DILF": "Dad I'd like to... you know.",
     "Cougar": "Older woman who dates younger men.",
@@ -494,13 +484,13 @@ export const wordDefinitions: Record<string, string> = {
     // Group Activities
     "Swinger": "Person who swaps partners with other couples.",
     "Open Relationship": "Dating but allowed to see others.",
-    "Wife Swap": "Two couples exchange partners.",
+    "Wife Swap": "Two couples trade partners for a night.",
     "Key Party": "Party where car keys decide who goes home with who.",
 
     // Physiology
     "Wet Dream": "Sexual dream that makes you... finish.",
     "Nocturnal": "Happening at night. Night emissions.",
-    "Hard": "Male arousal state.",
+    "Hard": "When a guy is turned on. Ready state.",
     "Soft": "Not aroused.",
     "Big": "Large size. You know what.",
     "Small": "Below average size.",
@@ -586,5 +576,311 @@ export const wordDefinitions: Record<string, string> = {
     "Cap": "Lie. 'No cap' means 'I'm not lying'.",
     "Gatekeep": "Keeping secrets. Not sharing info.",
     "Girlboss": "Successful woman. Sometimes used as joke.",
-    "Main Character": "Person who acts like the world is about them."
+    "Main Character": "Person who acts like the world is about them.",
+
+    // ============================================
+    // UNDEFINED WORDS - AI-Generated Pairs (63 pairs = 126 words)
+    // ============================================
+
+    // Bondage vs Shibari
+    "Bondage": "Tying someone up during sexy time.",
+    "Shibari": "Japanese rope tying art. Fancy bondage.",
+
+    // Deepfake vs Face Swap
+    "Deepfake": "Fake video using AI to put someone's face on another body.",
+    "Face Swap": "Swapping faces in photos or videos. Less realistic.",
+
+    // VIP Booth vs Bottle Service
+    "VIP Booth": "Private fancy seating at a club.",
+    "Bottle Service": "Buying whole bottle at club. Comes with table.",
+
+    // Speakeasy vs Dive Bar
+    "Speakeasy": "Hidden bar with secret entrance. Fancy vibes.",
+    "Dive Bar": "Cheap messy bar. Sticky floors. Real ones.",
+
+    // Rooftop Party vs Beach Bonfire
+    "Rooftop Party": "Party on top of building. City views.",
+    "Beach Bonfire": "Party on beach with fire at night.",
+
+    // Lace vs Garter (Lace already defined above)
+    "Garter": "Band worn on thigh. Holds up stockings.",
+
+    // Discreet vs Incognito
+    "Discreet": "Keeping things private. No one knows.",
+    "Incognito": "Hidden identity mode. Secret browsing.",
+
+    // Revenge Porn vs Sextortion
+    "Revenge Porn": "Sharing someone's private pics without permission.",
+    "Sextortion": "Blackmail using someone's private pics.",
+
+    // Tinder Bio vs Grindr Profile
+    "Tinder Bio": "Your dating app description. What you write about yourself.",
+    "Grindr Profile": "Gay dating app profile. Similar thing.",
+
+    // Vixen vs Siren
+    "Vixen": "Sexy attractive woman. Fox-like.",
+    "Siren": "Dangerously attractive woman. Lures you in.",
+
+    // Seductress vs Temptress
+    "Seductress": "Woman who charms you. Hard to resist.",
+    "Temptress": "Woman who tempts. Hard to resist.",
+
+    // Dirty Dancing vs Twerking
+    "Dirty Dancing": "Sexy close dancing. Bodies touching.",
+    "Twerking": "Shaking your butt to music. Hip thing.",
+
+    // Groupie vs Stalker Fan
+    "Groupie": "Fan who follows famous people. Wants to get close.",
+    "Stalker Fan": "Obsessed fan. Goes too far.",
+
+    // Frat House vs Sorority
+    "Frat House": "College guys living together. Parties.",
+    "Sorority": "College girls living together. Sisters.",
+
+    // Nympho vs Sexaholic
+    "Nympho": "Person who wants sex all the time.",
+    "Sexaholic": "Addicted to sex. Can't stop.",
+
+    // Blackmail vs Extortion
+    "Blackmail": "Threatening to expose secrets for money.",
+    "Extortion": "Forcing someone to pay using threats.",
+
+    // Safe Word vs Traffic Light
+    "Safe Word": "Word you say to stop during kinky stuff.",
+    "Traffic Light": "Red yellow green system. Red means stop.",
+
+    // Velcro Cuffs vs Silk Ties
+    "Velcro Cuffs": "Easy-release handcuffs. Beginner friendly.",
+    "Silk Ties": "Soft fabric for tying. Gentle restraint.",
+
+    // Read Receipts vs Typing Bubble
+    "Read Receipts": "Shows when someone read your message.",
+    "Typing Bubble": "Three dots showing someone is typing.",
+
+    // Blocked vs Unmatched
+    "Blocked": "Cut off all contact. Can't message anymore.",
+    "Unmatched": "Removed match on dating app. Gone.",
+
+    // Bad Boy vs Fuckboy (Fuckboy already defined above)
+    "Bad Boy": "Rebel type. Dangerous but attractive.",
+
+    // Hotwife vs Cuckold (removed - mentions spouse relations)
+    // These terms removed from game
+
+    // Edging vs Ruined
+    "Edging": "Getting close but stopping. Building up.",
+    "Ruined": "Stopping at the wrong moment. Disappointing end.",
+
+    // Hotel vs Airbnb
+    "Hotel": "Rented room for the night. Professional staff.",
+    "Airbnb": "Renting someone's place. More private.",
+
+    // Hickey vs Bite (Hickey already defined above)
+    "Bite": "Teeth marks. More intense.",
+
+    // Story vs DM
+    "Story": "Post that disappears after 24 hours.",
+    "DM": "Direct Message. Private chat.",
+
+    // Jock vs Twink
+    "Jock": "Athletic muscular guy. Sports type.",
+    "Twink": "Slim young looking guy. Smooth.",
+
+    // Flash vs Peek
+    "Flash": "Quick reveal of body parts.",
+    "Peek": "Sneaky look. Small glimpse.",
+
+    // Crush vs Obsession
+    "Crush": "Liking someone. Butterflies.",
+    "Obsession": "Can't stop thinking about them. Too much.",
+
+    // Club Crawl vs Bar Hop
+    "Club Crawl": "Going to many clubs in one night.",
+    "Bar Hop": "Going to many bars in one night.",
+
+    // Latex Outfit vs Leather Outfit
+    "Latex Outfit": "Shiny rubber clothes. Very tight.",
+    "Leather Outfit": "Animal skin clothes. Biker vibes.",
+
+    // Fetish Ball vs Costume Party
+    "Fetish Ball": "Party where people dress in kink outfits.",
+    "Costume Party": "Party with costumes. More innocent.",
+
+    // Erotic Novel vs Romance Novel
+    "Erotic Novel": "Book with lots of sex scenes.",
+    "Romance Novel": "Love story book. May have some spice.",
+
+    // Stripper Pole vs Pole Dancing Class
+    "Stripper Pole": "Pole used for sexy dancing.",
+    "Pole Dancing Class": "Fitness class using a pole.",
+
+    // Netflix & Chill vs Netflix & Snack
+    "Netflix & Chill": "Code for hanging out and hooking up.",
+    "Netflix & Snack": "Actually watching Netflix with food.",
+
+    // Spark vs Connection
+    "Spark": "Instant attraction. Chemistry.",
+    "Connection": "Deeper bond. Understanding each other.",
+
+    // Bartender vs Mixologist
+    "Bartender": "Person who makes drinks at bar.",
+    "Mixologist": "Fancy name for skilled bartender.",
+
+    // Bouncer vs Security
+    "Bouncer": "Person who guards club door. Decides who gets in.",
+    "Security": "Person who keeps place safe. More general.",
+
+    // Dating App vs Hookup App
+    "Dating App": "App to find relationships. Tinder, Hinge.",
+    "Hookup App": "App just for casual sex.",
+
+    // First Date vs Third Date
+    "First Date": "First time going out together. Nervous.",
+    "Third Date": "Third time going out. Things usually heat up.",
+
+    // Vibe vs Atmosphere
+    "Vibe": "The feeling of a place. Energy.",
+    "Atmosphere": "Similar but more about the setting.",
+
+    // Chaser vs Creeper
+    "Chaser": "Someone who pursues aggressively.",
+    "Creeper": "Weirdo who makes you uncomfortable.",
+
+    // Red Room vs Safe Word (gemma)
+    "Red Room": "Room designed for kinky activities. 50 Shades.",
+
+    // Afterparty vs House Party
+    "Afterparty": "Party after the main event. Late night.",
+    "House Party": "Party at someone's home.",
+
+    // Pantyhose vs Stockings
+    "Pantyhose": "Full leg covering. One piece.",
+    "Stockings": "Just covers leg. Needs garter to hold.",
+
+    // Rizz (already defined) - skip
+
+    // Boudoir vs Lair
+    "Boudoir": "Woman's private bedroom. Fancy word.",
+    "Lair": "Secret hiding place. Seduction spot.",
+
+    // Forbidden vs Taboo (Forbidden already defined above)
+    "Taboo": "Society says it's wrong. Controversial.",
+
+    // Provocative vs Suggestive
+    "Provocative": "Designed to get a reaction. Bold.",
+    "Suggestive": "Hints at something sexual. Subtle.",
+
+    // Webcam Girl vs Camboy
+    "Webcam Girl": "Woman who performs online for money.",
+    "Camboy": "Guy who performs online for money.",
+
+    // Stud vs Hunk
+    "Stud": "Very attractive confident man. Player.",
+    "Hunk": "Muscular hot guy. Eye candy.",
+
+    // Cuckold vs Bull (Cuckold already defined above)
+    "Bull": "The other man in that situation.",
+
+    // Chastity vs Cage
+    "Chastity": "Not having sex. Staying pure.",
+    "Cage": "Thing that stops a guy from getting excited. Kink thing.",
+
+    // Silk vs Lace
+    "Silk": "Smooth shiny fabric. Expensive feel.",
+
+    // First Base vs Second Base
+    "First Base": "Kissing. First step.",
+    "Second Base": "Touching above waist. Second step.",
+
+    // Bar Hopping vs Pub Crawl
+    "Bar Hopping": "Going from bar to bar. American term.",
+    "Pub Crawl": "Same thing. British term.",
+
+    // Cuddle vs Spooning
+    "Cuddle": "Hugging close. Cozy.",
+    "Spooning": "Lying together like spoons. One behind other.",
+
+    // Seduction vs Temptation
+    "Seduction": "Act of attracting someone sexually.",
+    "Temptation": "Something that draws you in. Hard to resist.",
+
+    // Ghosted vs Blocked
+    "Ghosted": "When someone stops replying. Disappears.",
+
+    // Exes vs Rebound
+    "Exes": "Former partners. Past relationships.",
+    "Rebound": "Person you date right after breakup.",
+
+    // Last Call vs Closing Time
+    "Last Call": "Final drink order at bar.",
+    "Closing Time": "When bar shuts down. Go home.",
+
+    // Stag vs Bull (kimi-k2)
+    "Stag": "Man who watches his partner. Voyeur.",
+
+    // Pegging vs Strap-On
+    "Pegging": "She uses a toy on him. Roles switched.",
+    "Strap-On": "Wearable toy. Used by anyone.",
+
+    // DM vs Slide
+    "Slide": "To DM someone smoothly. Making a move.",
+
+    // Mile High Club vs Glory Hole
+    "Mile High Club": "Had sex on airplane. Achievement.",
+    "Glory Hole": "Hole in wall for anonymous acts.",
+
+    // Lubricant vs Massage Oil
+    "Lubricant": "Slippery stuff for sex. Prevents friction.",
+    "Massage Oil": "Oil for rubbing bodies. Smells nice.",
+
+    // Shot vs Jägerbomb
+    "Shot": "Small drink you take in one gulp.",
+    "Jägerbomb": "Jäger dropped in energy drink. Party shot.",
+
+    // Wax Play vs Ice
+    "Wax Play": "Dripping hot wax on skin. Kink.",
+    "Ice": "Using ice cubes on body. Temperature play.",
+
+    // Bar vs Speakeasy (Bar already defined in SPICY_WORDS)
+
+    // VIP Room vs Back Room (VIP Room similar to VIP Booth above)
+    "Back Room": "Private room in back. Secret stuff happens.",
+
+    // Sugar Mommy vs Sugar Uncle
+    "Sugar Mommy": "Older rich woman who pays younger partner.",
+    "Sugar Uncle": "Older rich man who pays for company.",
+
+    // Stranger vs Regular
+    "Stranger": "Someone you don't know.",
+    "Regular": "Someone who comes often. Known face.",
+
+    // Cuffing Season vs Celibacy
+    "Cuffing Season": "Fall/winter when people want relationships.",
+    "Celibacy": "Choosing not to have sex.",
+
+    // Pet Names vs Collar
+    "Pet Names": "Cute nicknames for partner. Babe honey.",
+    "Collar": "Worn around neck. Sign of ownership in kink.",
+
+    // Impact Play vs Sensation Play
+    "Impact Play": "Spanking hitting. Physical stuff.",
+    "Sensation Play": "Feathers ice tickling. Gentle stuff.",
+
+    // Wine Night vs Ladies Night
+    "Wine Night": "Girls drinking wine together. Gossip.",
+    "Ladies Night": "Night out for women. Discounts at clubs.",
+
+    // Wingman vs Cockblock (Cockblock already defined above)
+    "Wingman": "Friend who helps you get dates.",
+
+    // Creepshot vs Up-skirt
+    "Creepshot": "Secret photo of someone without permission.",
+    "Up-skirt": "Illegal photo under someone's skirt.",
+
+    // Side Chick vs Main Chick (Side Chick already defined above)
+    "Main Chick": "Official girlfriend. Number one.",
+
+    // Chad vs Becky
+    "Chad": "Internet term for alpha male. Gets all girls.",
+    "Becky": "Basic girl. Average looking."
 };

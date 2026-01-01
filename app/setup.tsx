@@ -63,6 +63,7 @@ export default function GameSetup() {
     }, [hasGroup, groupPlayers]);
 
     useEffect(() => {
+        if (players < MIN_PLAYERS) return;
         const maxRoles = players - 1;
         if (undercovers + mrWhites > maxRoles) {
             if (undercovers > maxRoles) {

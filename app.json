@@ -12,6 +12,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.affantheuser.mimic",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -19,7 +20,10 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "web": {
       "output": "static",
@@ -43,6 +47,18 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "00aff62c-0518-4dcf-85cd-71d1dfffc7f7"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/00aff62c-0518-4dcf-85cd-71d1dfffc7f7"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }

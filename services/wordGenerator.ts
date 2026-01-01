@@ -132,6 +132,11 @@ async function callGroq(prompt: string, mode: 'standard' | 'spicy' = 'standard',
     return { success: false, error: 'Max retries exceeded' };
 }
 
+import { WordHistoryService, STATIC_PACK_ID_STANDARD, STATIC_PACK_ID_SPICY } from './wordHistoryService';
+import { STATIC_WORD_PAIRS, SPICY_STATIC_WORD_PAIRS } from './staticWords';
+
+// ... imports ...
+
 export async function generateWordPair(mode: 'standard' | 'spicy' = 'standard'): Promise<{
     success: boolean;
     wordPair?: WordPair;
@@ -142,7 +147,7 @@ export async function generateWordPair(mode: 'standard' | 'spicy' = 'standard'):
     // 1. Get recent words to avoid duplicates
     const savedWords = await getSavedWords();
 
-    // Take last 40 pairs to send as negative constraint
+    // ... (keep existing prompt logic) ...
     const recentPairs = savedWords.slice(-40);
     const recentWordsList = recentPairs
         .map(w => `${w.civilian}, ${w.undercover}`)
@@ -155,17 +160,13 @@ export async function generateWordPair(mode: 'standard' | 'spicy' = 'standard'):
 
     const result = await callGroq(prompt, mode);
 
+    const staticList = mode === 'spicy' ? SPICY_STATIC_WORD_PAIRS : STATIC_WORD_PAIRS;
+    const staticId = mode === 'spicy' ? STATIC_PACK_ID_SPICY : STATIC_PACK_ID_STANDARD;
+
     if (!result.success) {
-        if (result.isQuotaError) {
-            // SILENT FALLBACK to Static Library if Quota Exceeded
-            return { success: true, wordPair: getRandomStaticWord(mode) };
-        }
-        if (result.error === 'network_error') {
-            // SILENT FALLBACK to Static Library if Network Error
-            return { success: true, wordPair: getRandomStaticWord(mode) };
-        }
-        // Any other error, use static
-        return { success: true, wordPair: getRandomStaticWord(mode) };
+        // Fallback to History Service
+        const fallbackWord = await WordHistoryService.getUnusedWord(staticId, staticList);
+        return { success: true, wordPair: fallbackWord! };
     }
 
     // Double check duplicates
@@ -176,7 +177,8 @@ export async function generateWordPair(mode: 'standard' | 'spicy' = 'standard'):
 
     if (isDuplicate) {
         console.log('AI duplicate detected, using static word');
-        return { success: true, wordPair: getRandomStaticWord(mode) };
+        const fallbackWord = await WordHistoryService.getUnusedWord(staticId, staticList);
+        return { success: true, wordPair: fallbackWord! };
     }
 
     const wordPair: WordPair = {
@@ -190,7 +192,11 @@ export async function generateWordPair(mode: 'standard' | 'spicy' = 'standard'):
     return { success: true, wordPair };
 }
 
-// Fallback is now just reading from the massive static library
-export function getFallbackWord(mode: 'standard' | 'spicy' = 'standard'): WordPair {
-    return getRandomStaticWord(mode);
+// Fallback is now just reading from the History Service
+export async function getFallbackWord(mode: 'standard' | 'spicy' = 'standard'): Promise<WordPair> {
+    const staticList = mode === 'spicy' ? SPICY_STATIC_WORD_PAIRS : STATIC_WORD_PAIRS;
+    const staticId = mode === 'spicy' ? STATIC_PACK_ID_SPICY : STATIC_PACK_ID_STANDARD;
+    const word = await WordHistoryService.getUnusedWord(staticId, staticList);
+    // If null (rare), simple random fallback
+    return word || staticList[Math.floor(Math.random() * staticList.length)];
 }
