@@ -1,85 +1,298 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StatusBar, Dimensions, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Settings, ShoppingCart, FileText, Trophy, Archive, Play } from 'lucide-react-native';
-import Animated, { FadeInDown, FadeIn } from 'react-native-reanimated';
+import { Settings, BookOpen, Clock, ShoppingBag, UserRoundSearch } from 'lucide-react-native';
+import React from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
-export default function Home() {
+const { width } = Dimensions.get('window');
+
+export default function HomeScreen() {
     const router = useRouter();
 
+    // Bouncy Button Logic
+    const scale = useSharedValue(1);
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: scale.value }]
+    }));
+
+    const onPressIn = () => {
+        scale.value = withSpring(0.95);
+    };
+
+    const onPressOut = () => {
+        scale.value = withSpring(1);
+    };
+
+    const handlePlayLocal = () => {
+        router.push('/setup');
+    };
+
     return (
-        <View style={{ flex: 1, backgroundColor: '#0a0a0a' }}>
-            {/* Header Row */}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingTop: 56 }}>
-                {/* Language Selector */}
-                <TouchableOpacity style={{ alignItems: 'center' }}>
-                    <View style={{ width: 32, height: 20, backgroundColor: '#1e3a8a', borderRadius: 4, marginBottom: 4, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)' }}>
-                        <Text style={{ color: 'white', fontSize: 8, fontWeight: 'bold' }}>🇬🇧</Text>
+        <View style={styles.container}>
+            <StatusBar barStyle="light-content" />
+
+            {/* Subtle Glow Behind Logo (Only Exception) */}
+            <View style={styles.logoGlow} />
+
+            <ScrollView contentContainerStyle={styles.scrollContent}>
+
+                {/* 1. HEADER */}
+                <View style={styles.header}>
+                    <View style={styles.logoContainer}>
+                        <Text style={styles.logoText}>MIMIC</Text>
                     </View>
-                    <Text style={{ color: 'white', fontSize: 11 }}>English</Text>
-                </TouchableOpacity>
 
-                {/* Profile Button */}
-                <TouchableOpacity style={{ width: 44, height: 44, backgroundColor: '#22d3ee', borderRadius: 22, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>M</Text>
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity style={styles.profileButton}>
+                        <Text style={{ fontSize: 24 }}>😎</Text>
+                    </TouchableOpacity>
+                </View>
 
-            {/* Main Content */}
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 }}>
-
-                {/* Title */}
-                <Animated.View entering={FadeInDown.delay(100).springify()} style={{ marginBottom: 60 }}>
-                    <Text style={{ color: 'white', fontSize: 64, fontWeight: '900', textAlign: 'center', lineHeight: 68 }}>MIMIC</Text>
-                </Animated.View>
-
-                {/* Play Button */}
-                <Animated.View entering={FadeIn.delay(300)}>
+                {/* 2. HERO SECTION - "LOCAL PARTY" */}
+                <Animated.View style={[styles.heroContainer, animatedStyle]}>
                     <TouchableOpacity
-                        onPress={() => router.push('/mode')}
-                        activeOpacity={0.8}
-                        style={{
-                            width: 160,
-                            height: 200,
-                            backgroundColor: 'rgba(255,255,255,0.05)',
-                            borderWidth: 3,
-                            borderColor: 'white',
-                            borderRadius: 16,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
+                        activeOpacity={1}
+                        onPressIn={onPressIn}
+                        onPressOut={onPressOut}
+                        onPress={handlePlayLocal}
+                        style={styles.heroCard}
                     >
-                        <Play size={56} color="white" fill="white" />
+                        <LinearGradient
+                            colors={['#FF0080', '#7928CA']} // Hot Pink to Violet
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }}
+                            style={styles.heroGradient}
+                        >
+                            {/* Watermark Icon - Clipped by overflow:hidden */}
+                            <View style={styles.watermarkContainer}>
+                                <UserRoundSearch size={120} color="white" style={{ opacity: 0.15 }} />
+                            </View>
+
+                            {/* Content */}
+                            <View style={styles.heroContent}>
+                                <Text style={styles.heroTitle}>LOCAL PARTY</Text>
+                                <View style={styles.heroSubtextBadge}>
+                                    <Text style={styles.heroSubtext}>Pass the Phone • 3+ Players</Text>
+                                </View>
+                            </View>
+                        </LinearGradient>
+                    </TouchableOpacity>
+
+                    {/* Secondary Button - Online Lobby */}
+                    <TouchableOpacity style={styles.onlineLobbyButton}>
+                        <Text style={styles.onlineLobbyText}>Online Lobby (Coming Soon)</Text>
                     </TouchableOpacity>
                 </Animated.View>
 
-            </View>
+                {/* 3. BENTO GRID - Utility Cards */}
+                <View style={styles.bentoGrid}>
+                    {/* Item 1: Rules */}
+                    <TouchableOpacity style={styles.bentoCard}>
+                        <View style={[styles.bentoIcon, { backgroundColor: '#3b82f6' }]}>
+                            <BookOpen size={24} color="white" />
+                        </View>
+                        <Text style={styles.bentoCardTitle}>How to Play</Text>
+                    </TouchableOpacity>
 
-            {/* Bottom Navigation */}
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingVertical: 20, paddingHorizontal: 16, paddingBottom: 36 }}>
-                <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', width: 48, height: 48 }}>
-                    <Settings size={28} color="#4ade80" />
-                </TouchableOpacity>
+                    {/* Item 2: History */}
+                    <TouchableOpacity style={styles.bentoCard}>
+                        <View style={[styles.bentoIcon, { backgroundColor: '#f97316' }]}>
+                            <Clock size={24} color="white" />
+                        </View>
+                        <View>
+                            <Text style={styles.bentoCardTitle}>Last Winner</Text>
+                            <Text style={styles.bentoCardSubtitle}>None yet</Text>
+                        </View>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', width: 48, height: 48 }}>
-                    <ShoppingCart size={28} color="#60a5fa" />
-                </TouchableOpacity>
+                    {/* Item 3: Shop */}
+                    <TouchableOpacity onPress={() => router.push('/packs')} style={styles.bentoCard}>
+                        <View style={[styles.bentoIcon, { backgroundColor: '#22c55e' }]}>
+                            <ShoppingBag size={24} color="white" />
+                        </View>
+                        <View>
+                            <Text style={styles.bentoCardTitle}>Shop</Text>
+                            <Text style={styles.bentoCardBadge}>NEW PACKS</Text>
+                        </View>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', width: 48, height: 48 }}>
-                    <FileText size={28} color="#fbbf24" />
-                </TouchableOpacity>
+                    {/* Item 4: Settings */}
+                    <TouchableOpacity style={styles.bentoCard}>
+                        <View style={[styles.bentoIcon, { backgroundColor: '#71717a' }]}>
+                            <Settings size={24} color="white" />
+                        </View>
+                        <Text style={styles.bentoCardTitle}>Settings</Text>
+                    </TouchableOpacity>
+                </View>
 
-                <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', width: 48, height: 48 }}>
-                    <Trophy size={28} color="#fbbf24" />
-                </TouchableOpacity>
-
-                <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', width: 48, height: 48, position: 'relative' }}>
-                    <Archive size={28} color="#f472b6" />
-                    {/* Notification Badge */}
-                    <View style={{ position: 'absolute', top: 0, right: 0, backgroundColor: '#ef4444', width: 18, height: 18, borderRadius: 9, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: '#0a0a0a' }}>
-                        <Text style={{ color: 'white', fontSize: 10, fontWeight: 'bold' }}>1</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
+            </ScrollView>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    // =====================
+    // 1. BACKGROUND & GLOW
+    // =====================
+    container: {
+        flex: 1,
+        backgroundColor: '#121212', // Solid Deep Charcoal - NO SHAPES
+    },
+    logoGlow: {
+        position: 'absolute',
+        top: -50,
+        left: -50,
+        width: 200,
+        height: 200,
+        borderRadius: 100,
+        backgroundColor: '#7928CA', // Purple
+        opacity: 0.2, // Strictly 0.2
+    },
+    scrollContent: {
+        padding: 24,
+        paddingTop: 60,
+    },
+
+    // =====================
+    // 2. HEADER
+    // =====================
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 40,
+    },
+    logoContainer: {
+        transform: [{ rotate: '-3deg' }],
+    },
+    logoText: {
+        fontSize: 42,
+        fontWeight: '900',
+        color: 'white',
+        textShadowColor: '#db2777', // Pink shadow
+        textShadowOffset: { width: 3, height: 3 },
+        textShadowRadius: 0,
+    },
+    profileButton: {
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        backgroundColor: '#252525',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 3,
+        borderColor: 'white',
+    },
+
+    // =====================
+    // 3. HERO CARD
+    // =====================
+    heroContainer: {
+        marginBottom: 40,
+    },
+    heroCard: {
+        height: 220,
+        borderRadius: 40, // Squircle
+        overflow: 'hidden', // CRITICAL: Clips the watermark icon
+        elevation: 10,
+        shadowColor: '#FF0080',
+        shadowOpacity: 0.4,
+        shadowRadius: 20,
+        shadowOffset: { width: 0, height: 10 },
+    },
+    heroGradient: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    watermarkContainer: {
+        position: 'absolute',
+        right: -20,
+        bottom: -10,
+    },
+    heroContent: {
+        alignItems: 'center',
+        zIndex: 1, // Ensures text is above watermark
+    },
+    heroTitle: {
+        color: 'white',
+        fontSize: 36,
+        fontWeight: '900',
+        letterSpacing: 1,
+        textAlign: 'center',
+    },
+    heroSubtextBadge: {
+        marginTop: 12,
+        backgroundColor: 'rgba(0,0,0,0.25)',
+        paddingHorizontal: 16,
+        paddingVertical: 6,
+        borderRadius: 16,
+    },
+    heroSubtext: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 14,
+    },
+
+    // =====================
+    // 4. ONLINE LOBBY BUTTON
+    // =====================
+    onlineLobbyButton: {
+        marginTop: 16,
+        alignSelf: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 24,
+        borderWidth: 2,
+        borderColor: 'white', // White border, not grey
+        borderRadius: 24,
+    },
+    onlineLobbyText: {
+        color: '#FFFFFF', // Pure White - must look clickable
+        fontWeight: 'bold',
+        opacity: 1.0, // Fully opaque
+    },
+
+    // =====================
+    // 5. BENTO GRID
+    // =====================
+    bentoGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 16,
+    },
+    bentoCard: {
+        width: (width - 48 - 16) / 2,
+        backgroundColor: '#252525', // Card Background
+        borderRadius: 24, // Super rounded
+        padding: 20,
+        height: 140,
+        justifyContent: 'space-between',
+        // CRITICAL: Border for separation
+        borderWidth: 1,
+        borderColor: '#333333', // Exactly this color
+    },
+    bentoIcon: {
+        width: 44,
+        height: 44,
+        borderRadius: 14,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    bentoCardTitle: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    bentoCardSubtitle: {
+        color: '#71717a',
+        fontSize: 12,
+        marginTop: 2,
+    },
+    bentoCardBadge: {
+        color: '#22c55e',
+        fontSize: 11,
+        fontWeight: 'bold',
+        marginTop: 2,
+    },
+});
