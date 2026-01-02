@@ -5,14 +5,13 @@ const STORAGE_KEY = 'undercover_groups';
 export interface PlayerGroup {
     id: string;
     name: string;
-    emoji: string;
     players: string[];
-    color: string; // New field for group color
+    color: string;
     createdAt: number;
     lastPlayedAt: number | null;
 }
 
-const EMOJIS = ['⚡', '🎮', '🔥', '💫', '🌟', '🎯', '🚀', '💎', '🌙', '🎪'];
+
 const COLORS = [
     '#ef4444', // Red
     '#f97316', // Orange
@@ -56,7 +55,6 @@ export async function createGroup(name: string, players: string[]): Promise<Play
     const newGroup: PlayerGroup = {
         id: Date.now().toString(),
         name: name.trim(),
-        emoji: EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
         players: players,
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
         createdAt: Date.now(),

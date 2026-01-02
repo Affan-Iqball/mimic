@@ -95,7 +95,7 @@ export default function EditGroup() {
                     />
                 ) : (
                     <TouchableOpacity onPress={() => setIsEditingName(true)} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                        <Text style={{ color: 'white', fontSize: 24, fontWeight: 'bold' }}>{name} {group.emoji}</Text>
+                        <Text style={{ color: 'white', fontSize: 24, fontWeight: 'bold' }}>{name}</Text>
                         <Edit2 size={16} color="#71717a" />
                     </TouchableOpacity>
                 )}

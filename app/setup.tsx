@@ -46,7 +46,7 @@ export default function GameSetup() {
     const refreshGroupData = async (id: string) => {
         const g = await getGroupById(id);
         if (g) {
-            setGroupName(g.name + ' ' + g.emoji);
+            setGroupName(g.name);
             setGroupPlayers(g.players);
             setGroupColor(g.color || '#22c55e');
             setPlayers(g.players.length);
@@ -141,7 +141,7 @@ export default function GameSetup() {
                 )}
 
                 {hasGroup ? (
-                    <View style={{ marginBottom: 24, borderRadius: 24, overflow: 'hidden', backgroundColor: '#1a1a1a', borderWidth: 1, borderColor: '#2a2a2a' }}>
+                    <View style={{ marginBottom: 24, borderRadius: 24, overflow: 'hidden', backgroundColor: '#1a1a1a', borderWidth: 1, borderColor: '#333' }}>
                         <View style={{ backgroundColor: groupColor, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 12, paddingHorizontal: 20 }}>
                             <View>
                                 <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{groupName}</Text>
@@ -177,80 +177,104 @@ export default function GameSetup() {
                         </TouchableOpacity>
                     </View>
                 ) : (
-                    <>
-                        <Text style={{ color: 'white', fontSize: 26, fontWeight: 'bold', textAlign: 'center', marginBottom: 12 }}>
-                            Players: {players}
+                    <View style={{ marginBottom: 30 }}>
+                        <Text style={{ color: 'white', fontSize: 32, fontWeight: '800', textAlign: 'center', marginBottom: 8 }}>
+                            {players} <Text style={{ color: '#fbbf24', fontSize: 20 }}>PLAYERS</Text>
                         </Text>
-                        <Slider
-                            style={{ width: '100%', height: 36, marginBottom: 20 }}
-                            minimumValue={MIN_PLAYERS}
-                            maximumValue={MAX_PLAYERS}
-                            step={1}
-                            value={players}
-                            onValueChange={(val) => setPlayers(val)}
-                            minimumTrackTintColor="#fbbf24"
-                            maximumTrackTintColor="#2a2a2a"
-                            thumbTintColor="#fbbf24"
-                        />
-                    </>
+
+                        <View style={{ paddingHorizontal: 10 }}>
+                            <Slider
+                                style={{ width: '100%', height: 40 }}
+                                minimumValue={MIN_PLAYERS}
+                                maximumValue={MAX_PLAYERS}
+                                step={1}
+                                value={players}
+                                onValueChange={(val) => setPlayers(val)}
+                                minimumTrackTintColor="#fbbf24"
+                                maximumTrackTintColor="#333"
+                                thumbTintColor="#fbbf24"
+                            />
+                        </View>
+                    </View>
                 )}
 
-                {/* Roles Card */}
-                <View style={{ backgroundColor: '#1a1a1a', borderRadius: 20, padding: 16, borderWidth: 1, borderColor: '#2a2a2a', marginBottom: 16 }}>
-                    {/* Civilians */}
-                    <View style={{ alignItems: 'center', marginBottom: 14 }}>
-                        <View style={{ backgroundColor: '#3b82f6', paddingHorizontal: 20, paddingVertical: 8, borderRadius: 16 }}>
-                            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15 }}>{civilians} Civilians</Text>
+                {/* Roles Card - VIBRANT REDESIGN V2 */}
+                <View style={{ gap: 12, marginBottom: 24, paddingHorizontal: 4 }}>
+
+                    {/* Civilians Row - Solid Blue */}
+                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#3b82f6', borderRadius: 20, padding: 8 }}>
+                        <View style={{ width: 48, height: 48, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 24 }}>🙂</Text>
+                        </View>
+                        <View style={{ flex: 1, paddingHorizontal: 12 }}>
+                            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Civilians</Text>
+                            <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12 }}>The majority</Text>
+                        </View>
+                        <View style={{ width: 40, height: 40, backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 12, justifyContent: 'center', alignItems: 'center', marginRight: 8 }}>
+                            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>{civilians}</Text>
                         </View>
                     </View>
 
-                    {/* Undercovers Row */}
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                    {/* Undercovers Row - Lighter Orange */}
+                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#f97316', borderRadius: 20, padding: 8 }}>
                         <TouchableOpacity
                             onPress={() => adjustRole('undercover', -1)}
-                            style={{ width: 32, height: 32, backgroundColor: '#2a2a2a', borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}
-                        >
-                            <Minus size={16} color="white" />
+                            style={{ width: 48, height: 48, backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}>
+                            <Minus size={20} color="white" />
                         </TouchableOpacity>
-                        <View style={{ flex: 1, marginHorizontal: 10, backgroundColor: '#0a0a0a', paddingVertical: 12, borderRadius: 16, borderWidth: 2, borderColor: '#3a3a3a' }}>
-                            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>{undercovers} Undercovers</Text>
+
+                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12 }}>
+                            <View style={{ width: 40, height: 40, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 12, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
+                                <Text style={{ fontSize: 22 }}>👺</Text>
+                            </View>
+                            <View>
+                                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Undercovers</Text>
+                                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>{undercovers}</Text>
+                            </View>
                         </View>
+
                         <TouchableOpacity
                             onPress={() => adjustRole('undercover', 1)}
-                            style={{ width: 32, height: 32, backgroundColor: '#2a2a2a', borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}
-                        >
-                            <Plus size={16} color="white" />
+                            style={{ width: 48, height: 48, backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}>
+                            <Plus size={20} color="white" />
                         </TouchableOpacity>
                     </View>
 
-                    {/* Mr. Whites Row */}
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {/* Mr. Whites Row - White/Grey */}
+                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: '#9ca3af', borderRadius: 20, padding: 8 }}>
                         <TouchableOpacity
                             onPress={() => adjustRole('mrwhite', -1)}
-                            style={{ width: 32, height: 32, backgroundColor: '#2a2a2a', borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}
-                        >
-                            <Minus size={16} color="white" />
+                            style={{ width: 48, height: 48, backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}>
+                            <Minus size={20} color="white" />
                         </TouchableOpacity>
-                        <View style={{ flex: 1, marginHorizontal: 10, backgroundColor: '#0a0a0a', paddingVertical: 12, borderRadius: 16, borderWidth: 2, borderColor: '#3a3a3a' }}>
-                            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15, textAlign: 'center' }}>{mrWhites} Mr. Whites</Text>
+
+                        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12 }}>
+                            <View style={{ width: 40, height: 40, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 12, justifyContent: 'center', alignItems: 'center', marginRight: 10 }}>
+                                <Text style={{ fontSize: 22 }}>👻</Text>
+                            </View>
+                            <View>
+                                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Mr. White</Text>
+                                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>{mrWhites}</Text>
+                            </View>
                         </View>
+
                         <TouchableOpacity
                             onPress={() => adjustRole('mrwhite', 1)}
-                            style={{ width: 32, height: 32, backgroundColor: '#2a2a2a', borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}
-                        >
-                            <Plus size={16} color="white" />
+                            style={{ width: 48, height: 48, backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}>
+                            <Plus size={20} color="white" />
                         </TouchableOpacity>
                     </View>
                 </View>
 
                 {!isValid && (
-                    <View style={{ backgroundColor: '#7f1d1d', borderRadius: 12, padding: 12, marginBottom: 16 }}>
-                        <Text style={{ color: '#fca5a5', fontSize: 13, textAlign: 'center' }}>
-                            ⚠️ Need at least 1 infiltrator
+                    <View style={{ backgroundColor: '#450a0a', borderRadius: 16, padding: 12, marginBottom: 24, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, borderWidth: 1, borderColor: '#ef4444' }}>
+                        <Text style={{ color: '#fca5a5', fontSize: 13, fontWeight: 'bold' }}>
+                            ⚠️ Add at least 1 infiltrator to start
                         </Text>
                     </View>
                 )}
-                {/* MERGED: GAME MODES & PACKS BUTTON */}
+
+                {/* CURRENT PACK CARD - More Pop */}
                 <View style={{ width: '100%', marginBottom: 32 }}>
                     <TouchableOpacity
                         onPress={() => router.push('/packs')}
@@ -258,28 +282,34 @@ export default function GameSetup() {
                             width: '100%',
                             backgroundColor: '#1a1a1a',
                             borderRadius: 24,
-                            paddingVertical: 20,
-                            paddingHorizontal: 24,
+                            padding: 4, // Inner padding for border effct
                             borderWidth: 1,
                             borderColor: '#333',
+                        }}
+                    >
+                        <View style={{
+                            backgroundColor: '#171717',
+                            borderRadius: 20,
+                            paddingVertical: 16,
+                            paddingHorizontal: 20,
                             flexDirection: 'row',
                             alignItems: 'center',
                             justifyContent: 'space-between'
-                        }}
-                    >
-                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-                            <View style={{ width: 48, height: 48, backgroundColor: '#2563eb', borderRadius: 24, justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 24 }}>{selectedPackName === "Standard Mode" || selectedPackName === "AI Generated ✨" ? "☁️" : "📦"}</Text>
+                        }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                                <View style={{ width: 56, height: 56, backgroundColor: '#22c55e', borderRadius: 20, justifyContent: 'center', alignItems: 'center', transform: [{ rotate: '-5deg' }] }}>
+                                    <Text style={{ fontSize: 28 }}>{selectedPackName === "Standard Mode" || selectedPackName === "AI Generated ✨" ? "☁️" : "📦"}</Text>
+                                </View>
+                                <View>
+                                    <Text style={{ color: '#86efac', fontSize: 11, fontWeight: 'bold', letterSpacing: 1 }}>CURRENT WORD PACK</Text>
+                                    <Text style={{ color: 'white', fontSize: 18, fontWeight: '800' }}>
+                                        {selectedPackName === "AI Generated ✨" ? "Standard / AI" : selectedPackName}
+                                    </Text>
+                                </View>
                             </View>
-                            <View>
-                                <Text style={{ color: '#94a3b8', fontSize: 13, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 0.5 }}>Current Pack</Text>
-                                <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>
-                                    {selectedPackName === "AI Generated ✨" ? "Standard / AI" : selectedPackName}
-                                </Text>
+                            <View style={{ width: 36, height: 36, backgroundColor: '#22c55e20', borderRadius: 18, justifyContent: 'center', alignItems: 'center' }}>
+                                <Edit2 size={16} color="#22c55e" />
                             </View>
-                        </View>
-                        <View style={{ width: 32, height: 32, backgroundColor: '#333', borderRadius: 16, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#94a3b8', fontSize: 16 }}>→</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -287,35 +317,42 @@ export default function GameSetup() {
             </ScrollView>
 
             <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, paddingHorizontal: 20, paddingBottom: 30, paddingTop: 20, backgroundColor: '#0a0a0a', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <TouchableOpacity style={{ width: 48, height: 48, backgroundColor: '#ec4899', borderRadius: 24, justifyContent: 'center', alignItems: 'center' }}>
-                    <Settings size={22} color="white" />
+                <TouchableOpacity style={{ width: 52, height: 52, backgroundColor: '#333', borderRadius: 26, justifyContent: 'center', alignItems: 'center' }}>
+                    <Settings size={24} color="#888" />
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     onPress={handleStart}
                     disabled={!isValid || isInitializing}
                     style={{
+                        flex: 1,
+                        marginHorizontal: 16,
                         backgroundColor: isValid ? '#22c55e' : '#2a2a2a',
-                        paddingHorizontal: 50,
-                        paddingVertical: 14,
+                        height: 56,
                         borderRadius: 28,
-                        opacity: isValid ? 1 : 0.5,
-                        flexDirection: 'row',
+                        justifyContent: 'center',
                         alignItems: 'center',
-                        gap: 8
+                        shadowColor: isValid ? '#22c55e' : 'transparent',
+                        shadowOffset: { width: 0, height: 4 },
+                        shadowOpacity: 0.3,
+                        shadowRadius: 8,
+                        elevation: 8
                     }}
                 >
-                    {isInitializing && <ActivityIndicator size="small" color="white" />}
-                    <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>
-                        {isInitializing ? 'Starting...' : 'Start'}
-                    </Text>
+                    {isInitializing ? (
+                        <ActivityIndicator size="small" color="white" />
+                    ) : (
+                        <Text style={{ color: isValid ? '#052e16' : '#555', fontSize: 20, fontWeight: '900', letterSpacing: 0.5 }}>
+                            START GAME
+                        </Text>
+                    )}
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     onPress={() => router.push('/help')}
-                    style={{ width: 48, height: 48, backgroundColor: '#3b82f6', borderRadius: 24, justifyContent: 'center', alignItems: 'center' }}
+                    style={{ width: 52, height: 52, backgroundColor: '#333', borderRadius: 26, justifyContent: 'center', alignItems: 'center' }}
                 >
-                    <HelpCircle size={22} color="white" />
+                    <HelpCircle size={24} color="#888" />
                 </TouchableOpacity>
             </View>
 

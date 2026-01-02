@@ -185,7 +185,7 @@ export default function Groups() {
                                 <View style={{ backgroundColor: group.color || '#22c55e', paddingVertical: 14, paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <View>
                                         <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>
-                                            {group.name} {group.emoji}
+                                            {group.name}
                                         </Text>
                                         <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12 }}>
                                             {group.players.length} players
